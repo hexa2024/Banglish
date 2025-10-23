@@ -1,58 +1,100 @@
+#include "parser.h"
 #include <iostream>
-#include <vector>
-#include <string>
 using namespace std;
 
-struct Token { int type; string value; };
-extern vector<Token> tokens;
-int pos = 0;
+static size_t pos = 0;
+static vector<Token> tokenStream;
 
-bool match(int type) {
-    if (tokens[pos].type == type) { pos++; return true; }
+static bool match(TokenType expected) {
+    if (pos < tokenStream.size() && tokenStream[pos].type == expected) {
+        pos++;
+        return true;
+    }
     return false;
 }
 
-void expr();  // forward declaration
-
-void factor() {
-    if (tokens[pos].type == ID || tokens[pos].type == NUM) pos++;
-    else cout << "Syntax error in factor\n";
+static void error(const string& msg) {
+    if (pos < tokenStream.size())
+        cerr << "Syntax error at token '" << tokenStream[pos].value << "': " << msg << "\n";
+    else
+        cerr << "Syntax error at end of input: " << msg << "\n";
 }
 
-void term() {
+static void factor() {
+    if (pos >= tokenStream.size()) {
+        error("Unexpected end of input in factor");
+        return;
+    }
+
+    TokenType t = tokenStream[pos].type;
+    if (t == ID || t == NUM) {
+        pos++;
+    } else {
+        error("Expected identifier or number in factor");
+        pos++;  // Try to recover
+    }
+}
+
+static void term() {
     factor();
-    while (tokens[pos].type == MUL || tokens[pos].type == DIV) {
+    while (pos < tokenStream.size() && 
+          (tokenStream[pos].type == MUL || tokenStream[pos].type == DIV)) {
         pos++;
         factor();
     }
 }
 
-void expr() {
+static void expr() {
     term();
-    while (tokens[pos].type == PLUS || tokens[pos].type == MINUS) {
+    while (pos < tokenStream.size() && 
+          (tokenStream[pos].type == PLUS || tokenStream[pos].type == MINUS)) {
         pos++;
         term();
     }
 }
 
-void stmt() {
-    if (tokens[pos].type == ID) {
+static void stmt() {
+    if (pos >= tokenStream.size()) {
+        error("Unexpected end of input in statement");
+        return;
+    }
+
+    if (tokenStream[pos].type == ID) {
         pos++;
-        if (match(3)) { // ASSIGN
-            expr();
-            if (!match(8)) cout << "Missing semicolon\n"; // SEMICOLON
+        if (!match(ASSIGN)) {
+            error("Expected '=' after identifier");
+            return;
         }
-    } else if (tokens[pos].type == 7) { // PRINT
+        expr();
+        if (!match(SEMICOLON)) {
+            error("Expected ';' at end of statement");
+        }
+    } else if (tokenStream[pos].type == PRINT) {
         pos++;
-        if (tokens[pos].type == ID) pos++;
-        else cout << "Expected identifier after print\n";
-        if (!match(8)) cout << "Missing semicolon\n";
+        if (pos < tokenStream.size() && tokenStream[pos].type == ID) {
+            pos++;
+        } else {
+            error("Expected identifier after 'print'");
+        }
+        if (!match(SEMICOLON)) {
+            error("Expected ';' after print statement");
+        }
+    } else {
+        error("Expected statement");
+        pos++;
     }
 }
 
-void parse() {
-    while (tokens[pos].type != 9) { // END
+void parse(const vector<Token>& tokens) {
+    tokenStream = tokens;
+    pos = 0;
+
+    while (pos < tokenStream.size() && tokenStream[pos].type != END) {
         stmt();
     }
-    cout << "Parsing complete.\n";
+
+    if (pos == tokenStream.size() || tokenStream[pos].type == END)
+        cout << "Parsing completed successfully.\n";
+    else
+        cout << "Parsing ended prematurely.\n";
 }

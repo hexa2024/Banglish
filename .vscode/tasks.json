@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Compiler Project",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-Wall",
+                "-Wextra",
+                "-g3",
+                "c:/Users/LENOVO/OneDrive/Desktop/Banglish/main.cpp",
+                "c:/Users/LENOVO/OneDrive/Desktop/Banglish/lexer.cpp",
+                "c:/Users/LENOVO/OneDrive/Desktop/Banglish/parser.cpp",
+                "-o",
+                "c:/Users/LENOVO/OneDrive/Desktop/Banglish/output/main.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        }
+    ]
+}

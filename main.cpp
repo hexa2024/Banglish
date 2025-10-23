@@ -1,18 +1,26 @@
 #include <iostream>
-#include "lexer.cpp"
-#include "parser.cpp"
+#include "lexer.h"
+#include "parser.h"
 using namespace std;
 
 int main() {
-    string code = "a = 5; b = a * 3 + 2; print b;";
-    auto tokens = tokenize(code);
+    string code = 
+        "a = 5;\n"
+        "b = a * 3 + 2;\n"
+        "print b;\n"
+        "c = 7 /3 ;\n"; // Intentional error
+
+    vector<Token> tokens = tokenize(code);
 
     cout << "Tokens:\n";
-    for (auto &t : tokens)
-        cout << t.value << " ";
+    for (auto &t : tokens) {
+        cout << "Token(" << t.value << ")";
+        if (t.type == ERROR) cout << " <-- Lexical error!";
+        cout << "\n";
+    }
+    cout << "\nParsing:\n";
 
-    cout << "\n\nParsing...\n";
-    parse();
+    parse(tokens);
 
     return 0;
 }
