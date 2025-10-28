@@ -17,8 +17,10 @@ vector<Token> tokenize(const string &src) {
             while (i < src.size() && isalnum(src[i])) {
                 id += src[i++];
             }
-            if (id == "print") tokens.push_back({PRINT, id});
-            else tokens.push_back({ID, id});
+            if (id == "print") 
+            tokens.push_back({PRINT, id});
+            else 
+            tokens.push_back({ID, id});
         } 
         else if (isdigit(src[i])) {
             string num;
@@ -29,12 +31,21 @@ vector<Token> tokenize(const string &src) {
         } 
         else {
             switch (src[i]) {
-                case '=': tokens.push_back({ASSIGN, "="}); break;
-                case '+': tokens.push_back({PLUS, "+"}); break;
-                case '-': tokens.push_back({MINUS, "-"}); break;
-                case '*': tokens.push_back({MUL, "*"}); break;
-                case '/': tokens.push_back({DIV, "/"}); break;
-                case ';': tokens.push_back({SEMICOLON, ";"}); break;
+                case '=': 
+                
+                tokens.push_back({ASSIGN, "="}); break;
+                case '+':
+                
+            tokens.push_back({PLUS, "+"}); break;
+                case '-': 
+                tokens.push_back({MINUS, "-"}); break;
+                case '*': 
+                
+                tokens.push_back({MUL, "*"}); break;
+                case '/': 
+                tokens.push_back({DIV, "/"}); break;
+                case ';': 
+                tokens.push_back({SEMICOLON, ";"}); break;
                 default:
                     tokens.push_back({ERROR, string(1, src[i])});
                     break;
