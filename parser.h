@@ -1,9 +1,4 @@
-#ifndef PARSER_H
-#define PARSER_H
-
-#include <vector>
+#pragma once
 #include "lexer.h"
-
+#include <vector>
 void parse(const std::vector<Token>& tokens);
-
-#endif

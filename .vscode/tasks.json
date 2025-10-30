@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Compiler Project",
+            "label": "Build and Run Compiler Project",
             "type": "shell",
             "command": "g++",
             "args": [
@@ -12,8 +12,9 @@
                 "c:/Users/LENOVO/OneDrive/Desktop/Banglish/main.cpp",
                 "c:/Users/LENOVO/OneDrive/Desktop/Banglish/lexer.cpp",
                 "c:/Users/LENOVO/OneDrive/Desktop/Banglish/parser.cpp",
+                "c:/Users/LENOVO/OneDrive/Desktop/Banglish/semantic.cpp",
                 "-o",
-                "c:/Users/LENOVO/OneDrive/Desktop/Banglish/output/main.exe"
+                "c:/Users/LENOVO/OneBDrive/Desktop/Banglish/output/main.exe"
             ],
             "group": {
                 "kind": "build",
@@ -21,7 +22,23 @@
             },
             "problemMatcher": [
                 "$gcc"
-            ]
+            ],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "dependsOn": [],
+            "detail": "Builds the compiler project"
+        },
+        {
+            "label": "Run Compiler Project",
+            "type": "shell",
+            "command": "c:/Users/LENOVO/OneDrive/Desktop/Banglish/output/main.exe",
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
         }
     ]
 }
