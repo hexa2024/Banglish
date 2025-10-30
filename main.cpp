@@ -2,7 +2,7 @@
 #include "parser.h"
 #include <iostream>
 #include <fstream>
-#include <cstdlib>   // for system()
+#include <cstdlib>  
 
 using namespace std;
 
@@ -18,27 +18,26 @@ int main() {
 
     auto tokens = tokenize(source);
 
-    // Redirect generated C++ code to a file
     ofstream out("output.cpp");
-    streambuf* coutbuf = cout.rdbuf(); // save old buffer
-    cout.rdbuf(out.rdbuf()); // redirect cout to output.cpp
+    streambuf* coutbuf = cout.rdbuf(); 
+    cout.rdbuf(out.rdbuf()); 
 
     parse(tokens);
 
-    cout.rdbuf(coutbuf); // restore cout
+    cout.rdbuf(coutbuf); 
     out.close();
 
-    cout << "\n✅ Banglish code compiled to 'output.cpp'\n";
+    cout << "\nBanglish code compiled to 'output.cpp'\n";
 
-    // Compile the generated C++ code
+    
     int compileResult = system("g++ output.cpp -o program.exe");
     if (compileResult != 0) {
-        cerr << "❌ Error: Failed to compile generated C++ code.\n";
+        cerr << "Error: Failed to compile generated C++ code.\n";
         return 1;
     }
 
-    cout << "▶ Running program...\n\n";
-    system(".\\program.exe"); // Run compiled program
+    cout << " Running program...\n\n";
+    system(".\\program.exe");
 
     return 0;
 }
