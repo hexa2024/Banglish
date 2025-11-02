@@ -26,20 +26,20 @@ std::vector<Token> tokenize(const std::string &source) {
             else if (id == "for") tokens.push_back({FOR, id});
             else tokens.push_back({ID, id});
         }
-        // Number (integer or float)
+        
         else if (isdigit(source[i])) {
             std::string num;
-            bool dot = false;  // track decimal point
+            bool dot = false;  
             while (i < source.size() && (isdigit(source[i]) || source[i] == '.')) {
                 if (source[i] == '.') {
-                    if (dot) break; // stop if second dot
+                    if (dot) break; 
                     dot = true;
                 }
                 num += source[i++];
             }
             tokens.push_back({NUM, num});
         }
-        // Operators and symbols
+    
         else {
             switch (source[i]) {
                 case '+': tokens.push_back({PLUS, "+"}); break;
@@ -54,12 +54,12 @@ std::vector<Token> tokenize(const std::string &source) {
                 case '}': tokens.push_back({RBRACE, "}"}); break;
                 case '>': tokens.push_back({GREATER, ">"}); break;
                 case '<': tokens.push_back({LESS, "<"}); break;
-                default: break; // ignore unknown characters
+                default: break; 
             }
             i++;
         }
     }
 
-    tokens.push_back({END, ""}); // mark end of input
+    tokens.push_back({END, ""});
     return tokens;
 }

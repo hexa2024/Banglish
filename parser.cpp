@@ -131,15 +131,25 @@ static void stmt() {
     }
     else if (t.type==FOR) {
         pos++;
-        if (!match(LPAREN)) { error("Expected '(' after for"); return; }
+        if (!match(LPAREN)) {
+             error("Expected '(' after for"); 
+             return; }
 
         auto init = expr();
-        if (!match(SEMICOLON)) { error("Expected ';' in for"); return; }
+        if (!match(SEMICOLON)) { 
+            error("Expected ';' in for");
+             return; }
         auto cond = expr();
-        if (!match(SEMICOLON)) { error("Expected ';' in for"); return; }
+        if (!match(SEMICOLON)) { 
+            error("Expected ';' in for");
+             return; }
         auto step = expr();
-        if (!match(RPAREN)) { error("Expected ')' after for"); return; }
-        if (!match(LBRACE)) { error("Expected '{' after for"); return; }
+        if (!match(RPAREN)) {
+             error("Expected ')' after for");
+              return; }
+        if (!match(LBRACE)) {
+             error("Expected '{' after for");
+              return; }
 
         code << "    for (" << init.first << "; " << cond.first << "; " << step.first << ") {\n";
         block();

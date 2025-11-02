@@ -19,7 +19,8 @@ void SemanticAnalyzer::declareVariable(const std::string &name, const std::strin
 }
 
 void SemanticAnalyzer::checkAssignment(const std::string &name, const std::string &type) {
-    if (!checkVariable(name)) return;
+    if (!checkVariable(name))
+     return;
     if (symbolTable[name] != type) {
         cerr << "Type warning: assigning '" << type << "' to variable '" << name << "' of type '" << symbolTable[name] << "'.\n";
     }
